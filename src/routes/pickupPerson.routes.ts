@@ -1,4 +1,4 @@
-import express from 'express';
+import express from 'express'; 
 import {
   getAllPickupPersons,
   createPickupPerson,
@@ -6,13 +6,15 @@ import {
   updatePickupPerson,
   deletePickupPerson,
 } from '../controllers/pickupPerson.controller';
+import authMiddleware from '../middleware/authMiddleware';
 
 const router = express.Router();
 
-router.get('/', getAllPickupPersons);
-router.post('/', createPickupPerson);
-router.get('/:id', getPickupPersonById);
-router.put('/:id', updatePickupPerson);
-router.delete('/:id', deletePickupPerson);
+// Apply authMiddleware to routes that need protection
+router.get('/', authMiddleware, getAllPickupPersons);
+router.post('/', authMiddleware, createPickupPerson);
+router.get('/:id', authMiddleware, getPickupPersonById);
+router.put('/:id', authMiddleware, updatePickupPerson);
+router.delete('/:id', authMiddleware, deletePickupPerson);
 
 export default router;
